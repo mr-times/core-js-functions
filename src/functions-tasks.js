@@ -17,6 +17,7 @@
  *   getCurrentFunctionName() => 'getCurrentFunctionName'
  *
  */
+
 function getCurrentFunctionName() {
   return getCurrentFunctionName.name;
 }
@@ -32,6 +33,7 @@ function getCurrentFunctionName() {
  *   getFunctionBody(hiHello) => "function hiHello() { console.log('hello world'); }"
  *
  */
+
 function getFunctionBody(arg) {
   if (arg) {
     return arg;
@@ -53,6 +55,7 @@ function getFunctionBody(arg) {
  *  ]) => [0, 1, 2]
  *
  */
+
 function getArgumentsCount(funcs) {
   return funcs.map((func) => func.length);
 }
@@ -73,6 +76,7 @@ function getArgumentsCount(funcs) {
  *   power05(16) => 4
  *
  */
+
 function getPowerFunction(exponent) {
   return (x) => x ** exponent;
 }
@@ -90,6 +94,7 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
+
 function getPolynom() {
   throw new Error('Not implemented');
 }
@@ -108,8 +113,15 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+
+function memoize(func) {
+  let mem;
+  return function memoizer() {
+    if (!mem) {
+      mem = func();
+    }
+    return mem;
+  };
 }
 
 /**
@@ -127,8 +139,19 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+
+function retry(func, attempts) {
+  return () => {
+    let last;
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      } catch (error) {
+        last = error;
+      }
+    }
+    throw last;
+  };
 }
 
 /**
@@ -192,8 +215,13 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let counter = startFrom;
+  return () => {
+    const resultId = counter;
+    counter += 1;
+    return resultId;
+  };
 }
 
 module.exports = {
